@@ -71,10 +71,22 @@ go get -u github.com/guumaster/go-tts
 
         err := t.Say("it" "questo programma è fantastico", &SayOptions{})
 
-	  fmt.Println(f(":boom: Hello World :beer:"))
+        // Other languages and options examples:
+
+        t.MustSay("zh-CN", "我喜欢它", &tts.SayOptions{Slow: true})
+        t.MustSay("my", "ကိုယ်ကြိုက်တယ်", opts)
+        t.MustSay("bn", "আমি এটা ভালোবাসি", opts)
+        t.MustSay("de", "ich liebe es", opts)
+        t.MustSay("ar", "احب هذا", opts)
+        t.MustSay("en", "I love it", opts)
+        t.MustSay("ja", "大好きです", opts)
+        t.MustSay("tr", "onu seviyorum", opts)
+        t.MustSay("es", "Me encanta", &tts.SayOptions{Slow: true})
+        t.MustSay("it", "Lo adoro", opts)
+
 	}
     // Output:
-    // will play an audio for "this program is amazing" in italian
+    // will play audios for every string you pass to Say() or MustSay()
 
 ```
 
@@ -90,9 +102,9 @@ $> go-tts --slow --lang "it" "questo programma è fantastico"
 
 Or echo from other commands: 
 ```
-$> echo "all done." | go-tts
+$> echo "che! esto es buenísimo pibe\!" | go-tts --lang "es-AR"
 // Output:
-// will play an audio for "all done" in english
+// will play an audio for "hey! this is great dude!" in argentinian
 ```
 
 
@@ -117,6 +129,17 @@ $> echo "all done." | go-tts
 	   --no-cache     don't use file cache (default: false)
 	   --help, -h     show help (default: false)
 	   --version, -v  print the version (default: false)
+```
+
+ ## Languages 
+ 
+ The language parameter must be a `ISO-639` compilant string. Ex: "es", "en", "kn", "zh-CN", etc.
+ If you use an unknown language, it will fail: 
+ 
+ ```
+$> go-tts --lang "klingon" "hello unknown world?"
+// Output:
+language: tag is not well-formed
 ```
 
 
