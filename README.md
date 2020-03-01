@@ -1,4 +1,3 @@
-[![Tests](https://img.shields.io/github/workflow/status/guumaster/go-tts/Test)](https://github.com/guumaster/go-tts/actions?query=workflow%3ATest)
 [![GitHub Release](https://img.shields.io/github/release/guumaster/go-tts.svg?logo=github&labelColor=262b30)](https://github.com/guumaster/go-tts/releases)
 [![Go Report Card](https://goreportcard.com/badge/github.com/guumaster/go-tts)](https://goreportcard.com/report/github.com/guumaster/go-tts)
 [![License](https://img.shields.io/github/license/guumaster/go-tts)](https://github.com/guumaster/go-tts/LICENSE)
@@ -27,11 +26,13 @@ I've only tested on Linux. Open [an issue](https://github.com/guumaster/go-tts/i
 
 ## Installation
 
-### Install binary directly
+### Install binary directly 
+
+**IMPORTANT NOTE**: _Binaries are compiled manually for linux. I cannot make `goreleaser` work with CGO_ENABLED.
 
 Feel free to change the path from `/usr/local/bin`, just make sure `go-tts` is available on your `$PATH` (check with `go-tts -h`).
 
-#### Linux/MacOS
+#### Linux 
 
 ```
 $ curl -sfL https://raw.githubusercontent.com/guumaster/go-tts/master/install.sh | bash -s -- -b /usr/local/bin
