@@ -1,4 +1,4 @@
-// Package cmd for contains the code to execute is as a CLI tool to convert strings or files to funny formats.
+// Package cmd for contains the code to execute is as a CLI tool to convert strings to audio.
 //
 /*
 
