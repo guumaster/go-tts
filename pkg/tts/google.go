@@ -126,8 +126,8 @@ func (t *GoogleTTS) play(audio io.Reader) error {
 
 	dec, data, _ := minimp3.DecodeFull(b)
 	if t.player == nil {
-		player, _ := oto.NewPlayer(dec.SampleRate, dec.Channels, 2, 1024)
-		t.player = player
+		player, _ := oto.NewContext(dec.SampleRate, dec.Channels, 2, 1024)
+		t.player = player.NewPlayer()
 	}
 	_, err = t.player.Write(data)
 	return err

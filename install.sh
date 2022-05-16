@@ -64,6 +64,7 @@ get_binaries() {
   case "$PLATFORM" in
     darwin/386) BINARIES="go-tts" ;;
     darwin/amd64) BINARIES="go-tts" ;;
+    darwin/arm64) BINARIES="go-tts" ;;
     linux/386) BINARIES="go-tts" ;;
     linux/amd64) BINARIES="go-tts" ;;
     *)
