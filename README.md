@@ -4,7 +4,7 @@
 
 # Go-TTS
 
-This CLI is just a wrapper on Google Translate that can play TTS audio files in all languages that are supported on the web. 
+This CLI is just a wrapper on Google Translate that can play TTS audio files in all languages that are supported on the web.
 
 Some languages are available for translation but not for TTS, so those would fail. Don't now which ones, I didn't go through the whole list.
 
@@ -14,7 +14,7 @@ Although it didn't fail while it was under development, it may fail randomly if 
 
 ## Prerequisites
 
-This program should be cross-platform. Uses [hajimehoshi/oto](https://github.com/hajimehoshi/oto) to play sounds, so it has the same requirements: 
+This program should be cross-platform. Uses [hajimehoshi/oto](https://github.com/hajimehoshi/oto) to play sounds, so it has the same requirements:
 
  * _macOS_: `AudioToolbox.framework` required (automatically linked).
  * _Linux_: libasound2-dev required. (`apt install libasound2-dev`)
@@ -26,13 +26,13 @@ I've only tested on Linux. Open [an issue](https://github.com/guumaster/go-tts/i
 
 ## Installation
 
-### Install binary directly 
+### Install binary directly
 
 **IMPORTANT NOTE**: _Binaries are compiled manually for linux. I cannot make `goreleaser` work with CGO_ENABLED.
 
 Feel free to change the path from `/usr/local/bin`, just make sure `go-tts` is available on your `$PATH` (check with `go-tts -h`).
 
-#### Linux 
+#### Linux
 
 ```
 $ curl -sfL https://raw.githubusercontent.com/guumaster/go-tts/master/install.sh | bash -s -- -b /usr/local/bin
@@ -58,18 +58,23 @@ go get -u github.com/guumaster/go-tts
 ## Module Usage
 
 ```
-	package main
+    package main
 
-	import (
-	  "fmt"
-	  "github.com/guumaster/go-tts/pkg/tts"
-	)
+    import (
+        "fmt"
+        "github.com/guumaster/go-tts/pkg/tts"
+    )
 
-	func main() {
+    func main() {
         t := tts.NewGoogleTTS()
+        opts := *SayOptions{}
+
         defer t.Close()
 
-        err := t.Say("it" "questo programma è fantastico", &SayOptions{})
+        err := t.Say("it" "questo programma è fantastico", opts)
+        if err != nil {
+            panic(err)
+        }
 
         // Other languages and options examples:
 
@@ -84,15 +89,22 @@ go get -u github.com/guumaster/go-tts
         t.MustSay("es", "Me encanta", &tts.SayOptions{Slow: true})
         t.MustSay("it", "Lo adoro", opts)
 
-	}
+        // Save a specific translation
+        err := tts.Save("en", "A locally saved file", "/tmp/myfile.mp3", opts)
+        if err != nil {
+            panic(err)
+        }
+    }
+
     // Output:
-    // will play audios for every string you pass to Say() or MustSay()
+    // will play audios for every string you pass to Say() or MustSay() and a
+    // file called /tmp/myfile.mp3 will be created.
 
 ```
 
 ## CLI Usage
 
-You can pass arguments: 
+You can pass arguments:
 
 ```
 $> go-tts --slow --lang "it" "questo programma è fantastico"
@@ -100,7 +112,7 @@ $> go-tts --slow --lang "it" "questo programma è fantastico"
 // will play an audio for "this program is amazing" in italian
 ```
 
-Or echo from other commands: 
+Or echo from other commands:
 ```
 $> echo "che! esto es buenísimo pibe\!" | go-tts --lang "es-AR"
 // Output:
@@ -131,11 +143,11 @@ $> echo "che! esto es buenísimo pibe\!" | go-tts --lang "es-AR"
 	   --version, -v  print the version (default: false)
 ```
 
- ## Languages 
- 
+ ## Languages
+
  The language parameter must be a `ISO-639` compilant string. Ex: "es", "en", "kn", "zh-CN", etc.
- If you use an unknown language, it will fail: 
- 
+ If you use an unknown language, it will fail:
+
  ```
 $> go-tts --lang "klingon" "hello unknown world?"
 // Output:
@@ -143,12 +155,12 @@ language: tag is not well-formed
 ```
 
 
-## Dependencies 
+## Dependencies
 
  * Uses [gosimple/slug](https://github.com/gosimple/slug) to calc cache key
  * Uses [hajimehoshi/oto](https://github.com/hajimehoshi/oto) to play audio files
  * Uses [tosone/minimp3](https://github.com/tosone/minimp3) to decode MP3 files
- * Uses [urfave/cli/v2](https://github.com/urfave/cli/v2) to run as CLI 
+ * Uses [urfave/cli/v2](https://github.com/urfave/cli/v2) to run as CLI
 
 
 ## Acknowledgements

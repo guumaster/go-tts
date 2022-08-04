@@ -100,6 +100,49 @@ func (t *GoogleTTS) MustSay(lang, text string, opts *SayOptions) {
 	}
 }
 
+// Save an audio MP3 translation file to a specific destination
+func Save(l, text string, destination string, opts *SayOptions) error {
+
+	if destination == "" {
+		return fmt.Errorf("destination must not be empty")
+	}
+
+	if !opts.NoCache {
+		if _, err := os.Stat(destination); err == nil {
+			return nil
+		}
+	}
+
+	ltag, err := language.Parse(l)
+	if err != nil {
+		return err
+	}
+	lang := ltag.String()
+	t := NewGoogleTTS()
+	t.SetCacheDir(destination)
+
+	f, err := os.Create(destination)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+
+	audio, err := t.googleTTSReader(text, lang, opts.Slow)
+	if err != nil {
+		return err
+	}
+	defer audio.Close()
+
+	b, err := io.ReadAll(audio)
+	if err != nil {
+		return err
+	}
+
+	_, err = f.Write(b)
+
+	return err
+}
+
 // Close discard the underlying mp3 player
 func (t *GoogleTTS) Close() error {
 	if t.player != nil {
